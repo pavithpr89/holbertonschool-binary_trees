@@ -1,24 +1,44 @@
-#include "binary_trees.h"
+#ifndef BINARY_TREES_H
+#define BINARY_TREES_H
 
-/**
- * binary_tree_height - Measures the height of a binary tree
- * @tree: Pointer to the root node
- * Return: Height of the tree, 0 if tree is NULL
- */
-size_t binary_tree_height(const binary_tree_t *tree)
+#include <stddef.h>
+
+/* Basic Binary Tree Node Structure */
+typedef struct binary_tree_s
 {
-size_t left_height, right_height;
+    int n;
+    struct binary_tree_s *parent;
+    struct binary_tree_s *left;
+    struct binary_tree_s *right;
+} binary_tree_t;
 
-if (!tree)
-return (0);
+/* Binary Search Tree, AVL Tree, Max Binary Heap typedefs */
+typedef struct binary_tree_s bst_t;
+typedef struct binary_tree_s avl_t;
+typedef struct binary_tree_s heap_t;
 
-if (!tree->left && !tree->right)
-return (0);
+/* Function Prototypes */
 
-left_height = binary_tree_height(tree->left);
-right_height = binary_tree_height(tree->right);
+/* Node creation */
+binary_tree_t *binary_tree_node(binary_tree_t *parent, int value);
 
-if (left_height > right_height)
-return (left_height + 1);
-return (right_height + 1);
-}
+/* Insert nodes */
+binary_tree_t *binary_tree_insert_left(binary_tree_t *parent, int value);
+binary_tree_t *binary_tree_insert_right(binary_tree_t *parent, int value);
+
+/* Delete tree */
+void binary_tree_delete(binary_tree_t *tree);
+
+/* Node checks */
+int binary_tree_is_leaf(const binary_tree_t *node);
+int binary_tree_is_root(const binary_tree_t *node);
+
+/* Traversals */
+void binary_tree_preorder(const binary_tree_t *tree, void (*func)(int));
+void binary_tree_inorder(const binary_tree_t *tree, void (*func)(int));
+void binary_tree_postorder(const binary_tree_t *tree, void (*func)(int));
+
+/* Tree properties */
+size_t binary_tree_height(const binary_tree_t *tree);
+
+#endif /* BINARY_TREES_H */
